@@ -67,7 +67,7 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_options(self, request, pk, format=None):
         return Response(allowed_methods=['GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
     
-class CommentByPost(generics.ListCreateAPIView):
+class CommentByPost(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
@@ -75,7 +75,7 @@ class CommentByPost(generics.ListCreateAPIView):
         return Comment.objects.filter(post_id=self.kwargs['pk'])
 
     def get_options(self, request, format=None):
-        return Response(allowed_methods=['GET', 'POST', 'OPTIONS'])
+        return Response(allowed_methods=['GET'])
     
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
