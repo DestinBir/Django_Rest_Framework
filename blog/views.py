@@ -43,7 +43,6 @@ class HomeView(generics.GenericAPIView):
             }
         })
 
-
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -58,7 +57,6 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_options(self, request, pk, format=None):
         return Response(allowed_methods=['GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
 
-
 class CommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -72,7 +70,6 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_options(self, request, pk, format=None):
         return Response(allowed_methods=['GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
-    
 class CommentByPost(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
