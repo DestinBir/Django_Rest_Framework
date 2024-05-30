@@ -77,6 +77,13 @@ class CommentByPost(generics.ListAPIView):
     def get_options(self, request, format=None):
         return Response(allowed_methods=['GET'])
     
+class RecentPosts(generics.ListAPIView):
+    queryset = Post.objects.all().order_by('-pub_date')[:4]
+    serializer_class = PostSerializer
+
+    def get_options(self, request, format=None):
+        return Response(allowed_methods=['GET'])
+    
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
