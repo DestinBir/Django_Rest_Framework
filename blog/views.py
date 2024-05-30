@@ -33,6 +33,12 @@ class HomeView(generics.GenericAPIView):
                         'PATCH': '/api/comment/<int:pk>/',
                         'DELETE': '/api/comment/<int:pk>/',
                     }
+                },
+                'comments by post': {
+                    'GET': '/api/post/<int:pk>/comments',
+                },
+                'recent posts': {
+                    'GET': '/api/recent'
                 }
             }
         })
