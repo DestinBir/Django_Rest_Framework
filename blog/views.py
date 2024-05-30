@@ -5,18 +5,12 @@ from .serializers import PostSerializer, CommentSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.schemas import AutoSchema
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from rest_framework import viewsets
 
-class PostAutoSchema(AutoSchema):
-    pass
-
-class CommentAutoSchema(AutoSchema):
-    pass
-
 class HomeView(generics.GenericAPIView):
+    queryset = Post.objects.all()
     
-    schemas = [PostAutoSchema(), CommentAutoSchema()]  
-
     def get(self, request):
         return Response({
             'message': 'Welcome to my API!',
@@ -25,10 +19,10 @@ class HomeView(generics.GenericAPIView):
                     'GET': '/api/posts',
                     'POST': '/api/posts',
                     'detail': {
-                        'GET': '/api/post/<int:pk>/',
-                        'PUT': '/api/post/<int:pk>/',
-                        'PATCH': '/api/post/<int:pk>/',
-                        'DELETE': '/api/post/<int:pk>/',
+                        'GET': '/api/posts/<int:pk>/',
+                        'PUT': '/api/posts/<int:pk>/',
+                        'PATCH': '/api/posts/<int:pk>/',
+                        'DELETE': '/api/posts/<int:pk>/',
                     }
                 },
                 'comments': {
@@ -43,6 +37,7 @@ class HomeView(generics.GenericAPIView):
                 }
             }
         })
+
 
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
@@ -76,3 +71,32 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    
+from django.contrib.auth import login, authenticate
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import UserSerializer
+
+class SignupView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            return Response({'message': 'Login successful'})
+        return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
+        return Response({'message': 'Logged out successfully'})
