@@ -9,7 +9,6 @@ from django.contrib.auth import logout
 from rest_framework import viewsets
 
 class HomeView(generics.GenericAPIView):
-    queryset = Post.objects.all()
     
     def get(self, request):
         return Response({
@@ -19,10 +18,10 @@ class HomeView(generics.GenericAPIView):
                     'GET': '/api/posts',
                     'POST': '/api/posts',
                     'detail': {
-                        'GET': '/api/posts/<int:pk>/',
-                        'PUT': '/api/posts/<int:pk>/',
-                        'PATCH': '/api/posts/<int:pk>/',
-                        'DELETE': '/api/posts/<int:pk>/',
+                        'GET': '/api/post/<int:pk>/',
+                        'PUT': '/api/post/<int:pk>/',
+                        'PATCH': '/api/post/<int:pk>/',
+                        'DELETE': '/api/post/<int:pk>/',
                     }
                 },
                 'comments': {
@@ -71,7 +70,8 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
+
+"""    
 from django.contrib.auth import login, authenticate
 from rest_framework import status
 from rest_framework.response import Response
@@ -100,3 +100,4 @@ class LogoutView(APIView):
     def post(self, request):
         logout(request)
         return Response({'message': 'Logged out successfully'})
+"""
