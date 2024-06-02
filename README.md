@@ -135,11 +135,11 @@ Les contributions sont les bienvenues ! Veuillez soumettre une pull request pour
 
 ## Licence
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](MIT_LICENSE) pour plus d'informations.
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus d'informations.
 
 ## Auteurs
 
-- [Votre Nom](https://github.com/destinbir1)
+- [Votre Nom](https://github.com/DestinBir)
 
 ---
 
